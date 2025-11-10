@@ -1,27 +1,36 @@
-import React from "react";
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Feather } from '@expo/vector-icons';
-import { View, Text, StatusBar, StyleSheet } from 'react-native'; // Added imports for View, Text, StatusBar, and StyleSheet
-import TelaBiblioteca from "./src/componentes/TelaBiblioteca";
-import TelaDescricao from "./src/componentes/TelaDescricao";
-import TelaHome from "./src/componentes/TelaHome";
-import TelaRotas from "./src/componentes/TelaHome";
+import TelaHome from './src/components/TelaHome/Index';
+import TelaBiblioteca from './src/components/TelaBiblioteca/Index';
+import TelaRota from './src/components/TelaRota/Index';
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        initialRouteName="Início"
+        screenOptions={({ route }) => ({
+          headerShown: false,
+          tabBarActiveTintColor: '#471111',
+          tabBarInactiveTintColor: '#a7847a',
+          tabBarStyle: { backgroundColor: '#fff' },
+          tabBarLabelStyle: { fontSize: 13, fontWeight: 'bold', marginBottom: 4 },
+          tabBarIcon: ({ color, size }) => {
+            if (route.name === 'Início') return <Feather name="home" size={size} color={color} />;
+            if (route.name === 'Catálogo') return <MaterialCommunityIcons name="wine" size={size} color={color} />;
+            if (route.name === 'Contato') return <Feather name="phone" size={size} color={color} />;
+            return null;
+          },
+        })}
+      >
+        <Tab.Screen name="Início" component={TelaHome} />
+        <Tab.Screen name="Catálogo" component={TelaBiblioteca} />
+        <Tab.Screen name="Contato" component={TelaRota} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
